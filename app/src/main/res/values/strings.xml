@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">DemoEmployees</string>
+    <string name="new_employee_name">Nombre</string>
+    <string name="new_employee_position">Posición</string>
+    <string name="new_employee_salary">Salario</string>
+    <string name="add_employee">Añadir</string>
+</resources>
