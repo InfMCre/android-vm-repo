@@ -5,5 +5,5 @@ import com.example.demoemployees.utils.Resource
 
 interface CommonDepartmentRepository {
     suspend fun getDepartments() : Resource<List<Department>>
-    suspend fun createDepartment(department: Department) : Resource<Integer>
+    suspend fun createDepartment(department: Department) : Resource<Void>
 }

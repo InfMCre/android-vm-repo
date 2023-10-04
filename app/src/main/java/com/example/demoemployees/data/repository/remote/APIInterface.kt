@@ -17,5 +17,5 @@ interface APIInterface {
     @GET("departments")
     suspend fun getDepartments(): Response<List<Department>>
     @POST("departments")
-    suspend fun createDepartment(@Body department: Department) : Response<Integer>
+    suspend fun createDepartment(@Body department: Department) : Response<Void>
 }

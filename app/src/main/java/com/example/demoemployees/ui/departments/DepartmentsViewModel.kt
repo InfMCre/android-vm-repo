@@ -22,8 +22,8 @@ class DepartmentsViewModel(
     private val _items = MutableLiveData<Resource<List<Department>>>()
     val items : LiveData<Resource<List<Department>>> get() = _items
 
-    private val _created = MutableLiveData<Resource<Integer>>()
-    val created : LiveData<Resource<Integer>> get() = _created
+    private val _created = MutableLiveData<Resource<Void>>()
+    val created : LiveData<Resource<Void>> get() = _created
 
 
     init {
@@ -49,7 +49,7 @@ class DepartmentsViewModel(
         }
     }
 
-    private suspend fun createNewDepartmentRepository(department: Department): Resource<Integer>{
+    private suspend fun createNewDepartmentRepository(department: Department): Resource<Void>{
         return withContext(Dispatchers.IO) {
             departmentRepository.createDepartment(department)
         }

@@ -12,9 +12,13 @@ abstract class BaseDataSource {
                 val body = response.body()
                 if (body != null) {
                     return Resource.success(body)
+                } else {
+                    // podria no devolver datos...
+                    return Resource.success()
+                    // el 204 hay que tratarlo en algun lado. Dara success sin datos
                 }
             }
-            // podria no ser un error ...
+
             return error(" ${response.code()} ${response.message()}")
         } catch (e: Exception) {
             return error(e.message ?: e.toString())
