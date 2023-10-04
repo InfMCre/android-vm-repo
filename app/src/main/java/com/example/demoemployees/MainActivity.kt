@@ -9,7 +9,6 @@ import com.example.demoemployees.ui.employees.EmployeeAdapter
 import com.example.demoemployees.ui.employees.EmployeesViewModel
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import com.example.demoemployees.data.repository.EmployeeRepository
 import com.example.demoemployees.data.repository.remote.RemoteEmployeeDataSource
 import com.example.demoemployees.ui.employees.EmployeesViewModelFactory
 import com.example.demoemployees.utils.Resource
