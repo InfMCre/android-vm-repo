@@ -4,49 +4,62 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.demoemployees.data.Department
+import com.example.demoemployees.data.repository.CommonDepartmentRepository
+import com.example.demoemployees.data.repository.CommonEmployeeRepository
+import com.example.demoemployees.utils.Resource
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class DepartmentsViewModel() : ViewModel() {
+class DepartmentsViewModel(
+    private val departmentRepository: CommonDepartmentRepository
+) : ViewModel() {
 
 
-    private val _items = MutableLiveData<List<Department>>(emptyList())
-    val items : LiveData<List<Department>> get() = _items
+    private val _items = MutableLiveData<Resource<List<Department>>>()
+    val items : LiveData<Resource<List<Department>>> get() = _items
+
+    private val _created = MutableLiveData<Resource<Integer>>()
+    val created : LiveData<Resource<Integer>> get() = _created
 
 
     init {
-        // lista a mano
-        val departments = ArrayList<Department>(emptyList())
-        departments.add(Department(1, "Finanzas", "Bilbao"))
-        departments.add(Department(2, "RRHH", "Donosti"))
-        departments.add(Department(3, "Compras", "Vitoria"))
-        departments.add(Department(4, "Comercial", "Bilbao"))
+        updateDepartmentList()
+    }
 
-        // cambiamos el valor de mutableLiveData
-        _items.value = departments
+    fun updateDepartmentList() {
+        viewModelScope.launch {
+            val repoResponse = getDepartmentsFromRepository();
+            _items.value = repoResponse
+        }
+    }
+    private suspend fun getDepartmentsFromRepository(): Resource<List<Department>> {
+         return withContext(Dispatchers.IO) {
+             departmentRepository.getDepartments()
+         }
     }
 
     fun onAddDepartment(id: Int, name: String, city: String) {
-        // vamos a meter los elementos de la lista que se muestra en una variable
-        val departmentsOnList = _items.value?.toList()
-        // creo una nueva lista
-        val departments = ArrayList<Department>(emptyList())
-        if (departmentsOnList != null) {
-            // meto los elementos que ya existian en la lista
-            departments.addAll(departmentsOnList)
+        val newDepartment = Department(id, name, city)
+        viewModelScope.launch {
+            _created.value = createNewDepartmentRepository(newDepartment)
         }
-        // anado el nuevo empleado a la lista
-        departments.add(Department(id, name, city))
+    }
 
-        // cambio la variable que se esta observando desde otros sitios
-        _items.value = departments
+    private suspend fun createNewDepartmentRepository(department: Department): Resource<Integer>{
+        return withContext(Dispatchers.IO) {
+            departmentRepository.createDepartment(department)
+        }
     }
 }
 
 class DepartmentsViewModelFactory(
-
+    private val departmentRepository: CommonDepartmentRepository
 ): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
-        return DepartmentsViewModel() as T
+        return DepartmentsViewModel(departmentRepository) as T
     }
 }

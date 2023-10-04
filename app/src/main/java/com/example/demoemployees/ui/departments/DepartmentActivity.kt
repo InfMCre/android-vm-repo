@@ -2,16 +2,21 @@ package com.example.demoemployees.ui.departments
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
+import com.example.demoemployees.data.repository.remote.RemoteDepartmentDataSource
+import com.example.demoemployees.data.repository.remote.RemoteEmployeeDataSource
 import com.example.demoemployees.databinding.DepartmentsActivityBinding
+import com.example.demoemployees.utils.Resource
 
 class DepartmentActivity : ComponentActivity() {
 
     private lateinit var departmentAdapter: DepartmentAdapter
+    private val departmentRepository = RemoteDepartmentDataSource();
 
-    private val viewModel: DepartmentsViewModel by viewModels { DepartmentsViewModelFactory() }
+    private val viewModel: DepartmentsViewModel by viewModels { DepartmentsViewModelFactory(departmentRepository) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +33,34 @@ class DepartmentActivity : ComponentActivity() {
         viewModel.items.observe(this, Observer {
             // esto es lo que se ejecuta cada vez que la lista en el VM cambia de valor
             Log.i("PruebasDia1", "ha ocurrido un cambio en la lista")
-            departmentAdapter.submitList(it)
+            when (it.status) {
+                Resource.Status.SUCCESS -> {
+                    if (!it.data.isNullOrEmpty()) {
+                        departmentAdapter.submitList(it.data)
+                    }
+                }
+                Resource.Status.ERROR -> {
+                    Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+                }
+                Resource.Status.LOADING -> {
+                    // de momento
+                }
+            }
+        })
+
+
+        viewModel.created.observe(this, Observer {
+            when (it.status) {
+                Resource.Status.SUCCESS -> {
+                    viewModel.updateDepartmentList()
+                }
+                Resource.Status.ERROR -> {
+                    Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+                }
+                Resource.Status.LOADING -> {
+                    // de momento
+                }
+            }
         })
 
         binding.addDepartment.setOnClickListener() {
