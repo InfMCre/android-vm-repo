@@ -9,6 +9,7 @@ import com.example.demoemployees.ui.employees.EmployeeAdapter
 import com.example.demoemployees.ui.employees.EmployeesViewModel
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
+import com.example.demoemployees.data.Employee
 import com.example.demoemployees.data.repository.remote.RemoteEmployeeDataSource
 import com.example.demoemployees.ui.employees.EmployeesViewModelFactory
 import com.example.demoemployees.utils.Resource
@@ -30,8 +31,10 @@ class MainActivity : ComponentActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // creo el adapter de empleados
-        employeeAdapter = EmployeeAdapter()
+        employeeAdapter = EmployeeAdapter(::onEmployeesListClickItem)
+        // si llamasemos a una funcion del VM
+        // employeeAdapter = EmployeeAdapter(viewModel::onEmployeesListClickItem)
+
         // a la lista de empleados le incluyo el adapter de empleado
         binding.employeesList.adapter = employeeAdapter
 
@@ -52,8 +55,10 @@ class MainActivity : ComponentActivity() {
                     // de momento
                 }
             }
+        })
 
-            //
+        viewModel.items.observe(this, Observer {
+            Toast.makeText(this, "ha cambiado el valor de items", Toast.LENGTH_LONG).show()
         })
 
         viewModel.created.observe(this, Observer {
@@ -82,6 +87,13 @@ class MainActivity : ComponentActivity() {
             )
         }
     }
+
+    private fun onEmployeesListClickItem(employee: Employee) {
+        Log.i("PRUEBA1", "va2")
+        Log.i("PRUEBA1", employee.name)
+    }
+
+
 
 
 }

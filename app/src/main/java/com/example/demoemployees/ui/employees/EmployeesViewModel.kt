@@ -1,5 +1,6 @@
 package com.example.demoemployees.ui.employees
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,8 +22,8 @@ class EmployeesViewModel(
     private val _items = MutableLiveData<Resource<List<Employee>>>()
     val items : LiveData<Resource<List<Employee>>> get() = _items
 
-    private val _created = MutableLiveData<Resource<Integer>>();
-    val created : LiveData<Resource<Integer>> get() = _created;
+    private val _created = MutableLiveData<Resource<Int>>();
+    val created : LiveData<Resource<Int>> get() = _created;
 
     init {
         updateEmployeeList()
@@ -60,11 +61,12 @@ class EmployeesViewModel(
         // cambio la variable que se esta observando desde otros sitios
     }
 
-    suspend fun createNewEmployee(employee: Employee): Resource<Integer>{
+    private suspend fun createNewEmployee(employee: Employee): Resource<Int>{
         return withContext(Dispatchers.IO) {
             employeeRepository.createEmployee(employee)
         }
     }
+
 }
 
 class EmployeesViewModelFactory(

@@ -9,7 +9,7 @@ import com.example.demoemployees.data.Employee
 import com.example.demoemployees.databinding.ItemEmployeeBinding
 
 class EmployeeAdapter(
-
+    private val onClickListener: (Employee) -> Unit
 ): ListAdapter<Employee, EmployeeAdapter.EmployeeViewHolder>(EmployeeDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EmployeeViewHolder {
@@ -20,6 +20,9 @@ class EmployeeAdapter(
     override fun onBindViewHolder(holder: EmployeeViewHolder, position: Int) {
         val employee = getItem(position)
         holder.bind(employee)
+        holder.itemView.setOnClickListener {
+            onClickListener(employee)
+        }
     }
 
     inner class EmployeeViewHolder(private val binding: ItemEmployeeBinding) :

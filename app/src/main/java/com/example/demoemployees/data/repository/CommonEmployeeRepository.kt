@@ -5,5 +5,5 @@ import com.example.demoemployees.utils.Resource
 
 interface CommonEmployeeRepository {
     suspend fun getEmployees() : Resource<List<Employee>>
-    suspend fun createEmployee(employee: Employee) : Resource<Integer>
+    suspend fun createEmployee(employee: Employee) : Resource<Int>
 }
