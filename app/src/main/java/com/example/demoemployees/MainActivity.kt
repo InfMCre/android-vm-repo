@@ -2,6 +2,7 @@ package com.example.demoemployees
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import com.example.demoemployees.databinding.ActivityMainBinding
@@ -44,15 +45,21 @@ class MainActivity : ComponentActivity() {
 
             when (it.status) {
                 Resource.Status.SUCCESS -> {
+                    Log.d("Status", "success")
                     if (!it.data.isNullOrEmpty()) {
                         employeeAdapter.submitList(it.data)
                     }
                 }
                 Resource.Status.ERROR -> {
+                    Log.d("Status", "error")
                     Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
                 }
                 Resource.Status.LOADING -> {
                     // de momento
+                    Log.d("Status", "loading")
+                    val toast = Toast.makeText(this, "Cargando..", Toast.LENGTH_LONG)
+                    toast.setGravity(Gravity.TOP, 0, 0)
+                    toast.show()
                 }
             }
         })

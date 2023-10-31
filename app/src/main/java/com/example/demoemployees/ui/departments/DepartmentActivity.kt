@@ -2,12 +2,12 @@ package com.example.demoemployees.ui.departments
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.example.demoemployees.data.repository.remote.RemoteDepartmentDataSource
-import com.example.demoemployees.data.repository.remote.RemoteEmployeeDataSource
 import com.example.demoemployees.databinding.DepartmentsActivityBinding
 import com.example.demoemployees.utils.Resource
 
@@ -31,19 +31,26 @@ class DepartmentActivity : ComponentActivity() {
         binding.departmentsList.adapter = departmentAdapter
 
         viewModel.items.observe(this, Observer {
-            // esto es lo que se ejecuta cada vez que la lista en el VM cambia de valor
-            Log.i("PruebasDia1", "ha ocurrido un cambio en la lista")
+            // este es el codigo o comportamiento que va a ocurrir cuando la variable
+            // LiveData "items" de viewModel sufra una modificacion.
+            // al devolvernos un Resource<List<Department>> comprobaremos la respuesta de la llamada
+            // y segun si ha ido bien, mal, o esta cargando, ejecutaremos un codigo u otro
             when (it.status) {
                 Resource.Status.SUCCESS -> {
+                    // en caso de que haya sido OK
                     if (!it.data.isNullOrEmpty()) {
                         departmentAdapter.submitList(it.data)
                     }
+                    // TODO  con un ELSE aqui podriamos querer hacer algo distinto
+                    //  ha ido bien pero no hay departamentos... decirle algo al usuario no?
                 }
                 Resource.Status.ERROR -> {
+                    // en caso de que haya sido KO
                     Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
                 }
                 Resource.Status.LOADING -> {
-                    // de momento
+                    Log.d("Status", "loading")
+                    Toast.makeText(this, "Cargando..", Toast.LENGTH_LONG).show()
                 }
             }
         })

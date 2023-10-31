@@ -31,15 +31,24 @@ class DepartmentsViewModel(
     }
 
     fun updateDepartmentList() {
+        // todas las actualizaciones de los datos de la vista
+        // tendran que realizarse en una corrutina viewModelScope
         viewModelScope.launch {
+            _items.value = Resource.loading()
             val repoResponse = getDepartmentsFromRepository();
+            // aqui dentro actualizamos nuestra variable privada _items
+            // esto hace que nuestro LiveData "items" sea modificado tambien
+            // y aquel que observe "items" recibira la notificacion del cambio
             _items.value = repoResponse
         }
     }
     private suspend fun getDepartmentsFromRepository(): Resource<List<Department>> {
-         return withContext(Dispatchers.IO) {
-             departmentRepository.getDepartments()
-         }
+        // la llamada al repositorio tendra que ser en una corrutina Dispatchers.IO
+        // obligatoriamente. Esto iniciara la solicitud al repositorio en una corrutina
+        // que mientras espere a la respuesta del servidor o BD local no bloqueara la aplicacion
+        return withContext(Dispatchers.IO) {
+            departmentRepository.getDepartments()
+        }
     }
 
     fun onAddDepartment(id: Int, name: String, city: String) {
