@@ -28,6 +28,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        MyApp.userPreferences.saveAuthToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtaWtlbGxAZWxvcnJpZXRhLmNvbSIsImlzcyI6IkFEVF9EQU0iLCJpYXQiOjE2OTg2NzQ0MTIsImV4cCI6MTY5ODc2MDgxMiwidXNlcklkIjo4fQ.d0u7VXwUBvPb-H_kPVeCWKAl9cHFaDYB_dc_9gpEzoIuyAW_O1Ne1TuThIhb_vH_0xj_XBG8fs4bcqEUBfsWBg")
+
         // cargamos el XML en la actividad
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
