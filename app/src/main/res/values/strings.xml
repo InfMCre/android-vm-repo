@@ -8,4 +8,10 @@
     <string name="new_department_city">Ciudad del Departamento</string>
     <string name="add_department">Add departament</string>
     <string name="new_department_id">id del departamento</string>
+    <string name="login_activity_name">Login</string>
+    <string name="login_username_input_label">Username</string>
+    <string name="login_password_input_label">Password</string>
+    <string name="login_button">Login</string>
+    <string name="employees_activity_name">Employees</string>
+    <string name="departments_activity_name">Departments</string>
 </resources>

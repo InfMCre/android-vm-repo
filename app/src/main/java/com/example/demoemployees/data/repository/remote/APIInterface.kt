@@ -1,7 +1,9 @@
 package com.example.demoemployees.data.repository.remote
 
+import com.example.demoemployees.data.AuthenticationResponse
 import com.example.demoemployees.data.Department
 import com.example.demoemployees.data.Employee
+import com.example.demoemployees.data.repository.AuthenticationRequest
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -22,4 +24,7 @@ interface APIInterface {
 
     @GET("departments/{id}")
     suspend fun getDepartments(@Path("id") id: Integer): Response<List<Department>>
+
+    @POST("auth/login")
+    suspend fun login(@Body authenticationRequest : AuthenticationRequest): Response<AuthenticationResponse>
 }

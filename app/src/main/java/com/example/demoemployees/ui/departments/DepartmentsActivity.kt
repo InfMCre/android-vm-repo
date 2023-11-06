@@ -7,11 +7,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.example.demoemployees.data.repository.remote.RemoteDepartmentDataSource
-import com.example.demoemployees.data.repository.remote.RemoteEmployeeDataSource
 import com.example.demoemployees.databinding.DepartmentsActivityBinding
 import com.example.demoemployees.utils.Resource
 
-class DepartmentActivity : ComponentActivity() {
+class DepartmentsActivity : ComponentActivity() {
 
     private lateinit var departmentAdapter: DepartmentAdapter
     private val departmentRepository = RemoteDepartmentDataSource();

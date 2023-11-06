@@ -1,20 +1,18 @@
-package com.example.demoemployees
+package com.example.demoemployees.ui.employees
 
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import com.example.demoemployees.databinding.ActivityMainBinding
-import com.example.demoemployees.ui.employees.EmployeeAdapter
-import com.example.demoemployees.ui.employees.EmployeesViewModel
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
+import com.example.demoemployees.MyApp
 import com.example.demoemployees.data.Employee
 import com.example.demoemployees.data.repository.remote.RemoteEmployeeDataSource
-import com.example.demoemployees.ui.employees.EmployeesViewModelFactory
 import com.example.demoemployees.utils.Resource
 
-class MainActivity : ComponentActivity() {
+class EmployeesActivity : ComponentActivity() {
 
     private lateinit var employeeAdapter: EmployeeAdapter
     // vamos a ir contra el repo remoto
@@ -26,8 +24,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        MyApp.userPreferences.saveAuthToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtaWtlbGxAZWxvcnJpZXRhLmNvbSIsImlzcyI6IkFEVF9EQU0iLCJpYXQiOjE2OTg2NzQ0MTIsImV4cCI6MTY5ODc2MDgxMiwidXNlcklkIjo4fQ.d0u7VXwUBvPb-H_kPVeCWKAl9cHFaDYB_dc_9gpEzoIuyAW_O1Ne1TuThIhb_vH_0xj_XBG8fs4bcqEUBfsWBg")
 
         // cargamos el XML en la actividad
         val binding = ActivityMainBinding.inflate(layoutInflater)
@@ -42,7 +38,6 @@ class MainActivity : ComponentActivity() {
 
         viewModel.items.observe(this, Observer {
             // esto es lo que se ejecuta cada vez que la lista en el VM cambia de valor
-            Log.e("PruebasDia1", "ha ocurrido un cambio en la lista")
 
             when (it.status) {
                 Resource.Status.SUCCESS -> {
@@ -57,10 +52,6 @@ class MainActivity : ComponentActivity() {
                     // de momento
                 }
             }
-        })
-
-        viewModel.items.observe(this, Observer {
-            Toast.makeText(this, "ha cambiado el valor de items", Toast.LENGTH_LONG).show()
         })
 
         viewModel.created.observe(this, Observer {

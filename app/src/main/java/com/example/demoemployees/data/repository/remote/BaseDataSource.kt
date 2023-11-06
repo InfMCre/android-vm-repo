@@ -19,6 +19,9 @@ abstract class BaseDataSource {
                 }
             }
 
+            // TODO si el response.code es el 401 y no estamos en el login habria
+            //  que redirigir al login en algun punto de la app. Sera que en un momento se ha logueado y ha caducado...
+            //  otra opcion es hacer el login sin interaccion del usuario si tenemos guardado username y password...
             return error(" ${response.code()} ${response.message()}")
         } catch (e: Exception) {
             return error(e.message ?: e.toString())
