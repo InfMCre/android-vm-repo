@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
+import com.example.demoemployees.data.repository.local.RoomDepartmentDataSource
 import com.example.demoemployees.data.repository.remote.RemoteDepartmentDataSource
 import com.example.demoemployees.databinding.DepartmentsActivityBinding
 import com.example.demoemployees.utils.Resource
@@ -14,7 +15,7 @@ import com.example.demoemployees.utils.Resource
 class DepartmentActivity : ComponentActivity() {
 
     private lateinit var departmentAdapter: DepartmentAdapter
-    private val departmentRepository = RemoteDepartmentDataSource();
+    private val departmentRepository = RoomDepartmentDataSource();
 
     private val viewModel: DepartmentsViewModel by viewModels { DepartmentsViewModelFactory(departmentRepository) }
 

@@ -11,6 +11,7 @@ import com.example.demoemployees.ui.employees.EmployeesViewModel
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.example.demoemployees.data.Employee
+import com.example.demoemployees.data.repository.local.RoomEmployeeDataSource
 import com.example.demoemployees.data.repository.remote.RemoteEmployeeDataSource
 import com.example.demoemployees.ui.employees.EmployeesViewModelFactory
 import com.example.demoemployees.utils.Resource
@@ -19,7 +20,7 @@ class MainActivity : ComponentActivity() {
 
     private lateinit var employeeAdapter: EmployeeAdapter
     // vamos a ir contra el repo remoto
-    private val employeeRepository = RemoteEmployeeDataSource();
+    private val employeeRepository = RoomEmployeeDataSource();
 
     private val viewModel: EmployeesViewModel by viewModels { EmployeesViewModelFactory(
         employeeRepository

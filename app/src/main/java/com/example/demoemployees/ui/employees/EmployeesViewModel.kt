@@ -53,7 +53,7 @@ class EmployeesViewModel(
 
         // vamos a meter los elementos de la lista que se muestra en una variable
 
-        val newEmployee = Employee(name, position, salary)
+        val newEmployee = Employee(null, name, position, salary)
         viewModelScope.launch {
             _created.value = createNewEmployee(newEmployee)
         }

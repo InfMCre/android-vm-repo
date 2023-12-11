@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Department (
-    val id: Int,
+    val id: Int?,
     val name: String,
     val city: String,
 ): Parcelable

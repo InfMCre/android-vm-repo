@@ -3,13 +3,19 @@ package com.example.demoemployees
 import android.app.Application
 import android.content.Context
 import android.content.res.Configuration
+import androidx.room.Room
+import com.example.demoemployees.data.repository.local.MyAppRoomDataBase
 
 class MyApp : Application() {
 
     companion object {
         lateinit var context: Context;
-        lateinit var userPreferences: UserPreferences;
+        lateinit var userPreferences: UserPreferences
+        lateinit var db: MyAppRoomDataBase
     }
+
+
+
 
     // Called when the application is starting, before any other application objects have been created.
     // Overriding this method is totally optional!
@@ -17,6 +23,10 @@ class MyApp : Application() {
         super.onCreate()
         context = this;
         userPreferences = UserPreferences()
+
+        db = Room
+            .databaseBuilder(this, MyAppRoomDataBase::class.java, "company-db")
+            .build()
         // Required initialization logic here!
     }
 
