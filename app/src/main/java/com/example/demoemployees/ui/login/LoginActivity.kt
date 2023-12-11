@@ -34,6 +34,7 @@ class LoginActivity : ComponentActivity() {
 
         // el listener del boton
         binding.loginButton.setOnClickListener() {
+
             viewModel.onLoginClick(
                 binding.loginUsernameInput.text.toString(),
                 binding.loginPasswordInput.text.toString()
