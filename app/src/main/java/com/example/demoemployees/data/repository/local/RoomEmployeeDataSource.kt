@@ -19,7 +19,7 @@ class RoomEmployeeDataSource : CommonEmployeeRepository {
 
     override suspend fun createEmployee(employee: Employee): Resource<Int> {
         val response = employeeDao.addEmployee(employee.toDbEmployee())
-        return Resource.success(response)
+        return Resource.success(response.toInt())
     }
 
 }
@@ -34,7 +34,7 @@ interface EmployeeDao {
     suspend fun getEmployees(): List<DbEmployee>
 
     @Insert
-    suspend fun addEmployee(employee: DbEmployee): Int
+    suspend fun addEmployee(employee: DbEmployee): Long
 
     //@Update
     //suspend fun updateEmployee(employee: DbEmployee)

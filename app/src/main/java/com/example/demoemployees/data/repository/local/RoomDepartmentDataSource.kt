@@ -1,5 +1,6 @@
 package com.example.demoemployees.data.repository.local
 
+import android.database.sqlite.SQLiteConstraintException
 import androidx.room.Dao
 import androidx.room.Database
 import androidx.room.Insert
@@ -22,8 +23,13 @@ class RoomDepartmentDataSource: CommonDepartmentRepository {
     }
 
     override suspend fun createDepartment(department: Department): Resource<Void> {
-        departmentDao.addDepartment(department.toDbDepartment())
-        return Resource.success()
+        try {
+            departmentDao.addDepartment(department.toDbDepartment())
+            return Resource.success()
+        } catch (ex: SQLiteConstraintException) {
+            return Resource.error(ex.message!!)
+        }
+
     }
 }
 
@@ -34,7 +40,7 @@ fun DbDepartment.toDepartment() = Department(id, name, city)
 @Dao
 interface DepartmentDao {
 
-    @Query("SELECT * FROM employees ORDER BY id ASC")
+    @Query("SELECT * FROM departments ORDER BY id ASC")
     suspend fun getDepartments(): List<DbDepartment>
 
     @Insert

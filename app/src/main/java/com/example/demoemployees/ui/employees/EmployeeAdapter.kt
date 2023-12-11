@@ -30,7 +30,7 @@ class EmployeeAdapter(
 
         fun bind(employee: Employee) {
             binding.textViewTitle.text = employee.name
-            binding.textViewSubtitle1.text = employee.position
+            binding.textViewSubtitle1.text = employee.id.toString()
             binding.textViewSubtitle2.text = employee.salary.toString()
         }
     }
