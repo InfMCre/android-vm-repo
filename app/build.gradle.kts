@@ -5,6 +5,9 @@ plugins {
     // haremos las clases con los datos parcelables
     id("org.jetbrains.kotlin.plugin.parcelize")
     id("kotlin-kapt")
+
+    id("com.google.gms.google-services")
+
 }
 
 android {
@@ -87,4 +90,12 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     // ADD para utilizar viewmodels
     api("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+
+    implementation("com.google.firebase:firebase-messaging")
+
+    // para utilizar eventBus
+    implementation("org.greenrobot:eventbus:3.2.0")
+
 }

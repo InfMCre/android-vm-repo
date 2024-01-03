@@ -1,4 +1,4 @@
-package com.example.demoemployees
+package com.example.demoemployees.firebase
 
 enum class ReceivingMessageTypes {
     EMPLOYEE,

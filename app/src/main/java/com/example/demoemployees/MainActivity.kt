@@ -15,12 +15,20 @@ import com.example.demoemployees.data.repository.local.RoomEmployeeDataSource
 import com.example.demoemployees.data.repository.remote.RemoteEmployeeDataSource
 import com.example.demoemployees.ui.employees.EmployeesViewModelFactory
 import com.example.demoemployees.utils.Resource
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 class MainActivity : ComponentActivity() {
 
     private lateinit var employeeAdapter: EmployeeAdapter
     // vamos a ir contra el repo remoto
     private val employeeRepository = RoomEmployeeDataSource();
+
+
+    private val PLAY_SERVICES_RESOLUTION_REQUEST = 9000
 
     private val viewModel: EmployeesViewModel by viewModels { EmployeesViewModelFactory(
         employeeRepository
@@ -29,6 +37,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // esto estaba ya hardcodeado
         val accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtaWtlbGxAZWxvcnJpZXRhLmNvbSIsImlzcyI6IkFEVF9EQU0iLCJpYXQiOjE2OTg2NzQ0MTIsImV4cCI6MTY5ODc2MDgxMiwidXNlcklkIjo4fQ.d0u7VXwUBvPb-H_kPVeCWKAl9cHFaDYB_dc_9gpEzoIuyAW_O1Ne1TuThIhb_vH_0xj_XBG8fs4bcqEUBfsWBg"
 
         // donde accessToken es el token que ha respondido el server
@@ -107,6 +116,38 @@ class MainActivity : ComponentActivity() {
     }
 
 
+    // para el EventBus
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onNotificationEmployee(employee: Employee) {
+        viewModel.updateEmployeeList()
+    }
 
 
+    // FUNCION para comprobar si el dispositivo tiene los servicios de Google
+    private fun checkPlayServices(): Boolean {
+        val apiAvailability = GoogleApiAvailability.getInstance()
+        val resultCode = apiAvailability.isGooglePlayServicesAvailable(this)
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                // El error es recuperable, se puede mostrar un dialogo para solucionarlo
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)?.show()
+            } else {
+                // El error no es recuperable, el dispositivo no es compatible con Google Play Services
+                // Puedes realizar acciones adicionales segun tus necesidades
+                Log.e("PlayServices", "Dispositivo no compatible con Google Play Services")
+            }
+            return false
+        }
+        return true
+    }
 }

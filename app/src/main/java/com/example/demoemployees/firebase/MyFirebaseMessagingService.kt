@@ -1,11 +1,13 @@
-package com.example.demoemployees
+package com.example.demoemployees.firebase
 
+import android.app.ActivityManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.example.demoemployees.R
 import com.example.demoemployees.data.Employee
 import com.example.demoemployees.data.repository.local.RoomEmployeeDataSource
 import com.example.demoemployees.utils.Resource
@@ -120,5 +122,15 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         // Mostrar la notificación
         notificationManager.notify(1, builder.build())
+    }
+
+    // esta funcion comprueba si la aplicacion esta en background o no, podemos llamarla para mostrar notificacion o no
+    private fun isAppInBackground(): Boolean {
+        val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val appProcesses = activityManager.runningAppProcesses ?: return false
+
+        return appProcesses.none {
+            it.processName == packageName && it.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
+        }
     }
 }
