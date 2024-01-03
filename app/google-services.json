@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "454527695515",
+    "project_id": "laravel-fcm-4cd0e",
+    "storage_bucket": "laravel-fcm-4cd0e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:454527695515:android:36bd572fc15c9c2e0aa43e",
+        "android_client_info": {
+          "package_name": "com.example.demoemployees"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxJMXd4gNalUMANLTlEbE5L27sJKP7Et4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
